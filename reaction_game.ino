@@ -1,5 +1,6 @@
 int leds[6] = {21, 19, 18, 5, 4, 15};
 
+bool gameRunning = false;
 bool goingUp = true;
 const int buttonPin = 23;
 int buttonState = LOW;
@@ -8,15 +9,13 @@ int currentLed = 0;
 unsigned long lastStep = 0;
 const int stepTime = 100;
 int chosenLed = 0;
-leds.size()
+
 void setup() {
   for (int i = 0; i < 6; i++) {
     pinMode(leds[i], OUTPUT); 
   }
   pinMode(buttonPin, INPUT_PULLUP);
   randomSeed(analogRead(34));
-  chosenLed = chooseLed();
-
 }
 
 int chooseLed() {
@@ -66,18 +65,30 @@ void moveLight() {
 
 void loop() {
   buttonState = digitalRead(buttonPin);
-  if (buttonState == LOW) {
-    animation = false;
-  }
-  if (animation) {
-    moveLight();
-  } else {
-    allOff();
-    if (leds[currentLed] == chosenLed) {
-      allLeds(HIGH);
+  if (gameRunning) {
+    if (buttonState == LOW) {
+      animation = false;
+    }
+    if (animation) {
+      moveLight();
     } else {
-      digitalWrite(leds[currentLed], HIGH);
+      allOff();
+      if (leds[currentLed] == chosenLed) {
+        allLeds(HIGH);
+      } else {
+        digitalWrite(leds[currentLed], HIGH);
+      }
+      delay(1000);
+      allOff();
+      gameRunning = false;
+      currentLed = 0;
+    }
+  } else {
+    if (buttonState == LOW) {
+      chosenLed = chooseLed();
+      gameRunning = true;
+      animation = true;
+      delay(20);
     }
   }
-
 }
