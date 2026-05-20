@@ -1,10 +1,9 @@
 # Reaction  Game TODO
 
 # Main goals
-+ Bounce LEDs back and fourth instead of one way
-+ Make the game an infinite loop
++ Add a second button that raises/lowers the difficulty
++ Add a buzzer that play sound effects
 
 # Future Ideas
 + Allow different amount of leds to be used
-+ Add a button that switches between different animation or difficulties
-+ Host a website that displays the top streaks
++ Host a website that displays stats like the current streak
