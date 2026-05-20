@@ -1,18 +1,20 @@
-int leds[6] = {5, 18, 19, 21, 22, 23};
-const int buttonPin = 4;
+int leds[6] = {21, 19, 18, 5, 4, 15};
+
+bool goingUp = true;
+const int buttonPin = 23;
 int buttonState = LOW;
 bool animation = true;
 int currentLed = 0;
 unsigned long lastStep = 0;
 const int stepTime = 100;
 int chosenLed = 0;
-
+leds.size()
 void setup() {
   for (int i = 0; i < 6; i++) {
-    pinMode(leds[i], OUTPUT);
+    pinMode(leds[i], OUTPUT); 
   }
   pinMode(buttonPin, INPUT_PULLUP);
-  // randomSeed(analogRead(34));
+  randomSeed(analogRead(34));
   chosenLed = chooseLed();
 
 }
@@ -43,15 +45,21 @@ void allLeds(int val) {
 void moveLight() {
   if(millis() - lastStep >= stepTime) {
     allOff();
-
     digitalWrite(leds[currentLed], HIGH);
 
-    currentLed++;
-
-    if (currentLed >= 6) {
-      currentLed = 0;
+    if (goingUp) {
+      currentLed++;
+    } else {
+      currentLed--;
     }
 
+    if (currentLed < 0) {
+      currentLed = 1;
+      goingUp = true;
+    } else if (currentLed >= 6) {
+      currentLed = 4;
+      goingUp = false;
+    }
     lastStep = millis();
   }
 }
